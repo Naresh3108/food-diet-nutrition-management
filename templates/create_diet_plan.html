@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Diet Plan</title>
+</head>
+<body class="body_create_diet_plan">
+    {% include 'nutritionists_head.html' %}
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-7 mt-40">
+            <div class="card p-10">
+                <form action="create_diet_plan_action" method="post" enctype="multipart/form-data">
+                    <div>
+                        <h2 class="text-center">Create Diet Plan</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mt-10 p-10">
+                            <label for="diet_title">Diet Title</label>
+                            <div class="mt-5">
+                                <input class="input-class" type="text" name="diet_title" id="diet_title" required placeholder="Enter Title for Diet Plan">
+                            </div>
+                        </div>
+                        <div class="col-6 mt-10 p-10">
+                            <label for="diet_price">Diet Price</label>
+                            <div class="mt-5">
+                                <input class="input-class" type="number" name="diet_price" id="diet_price" required placeholder="Enter Diet Plan Price">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mt-10 p-10">
+                            <label for="age_from">Age From</label>
+                            <div class="mt-5">
+                                <input class="input-class" type="number" name="age_from" id="age_from" min="10" max="110" required placeholder="Enter Age from Diet can be followed by a person">
+                            </div>
+                        </div>
+                        <div class="col-6 mt-10 p-10">
+                            <label for="age_out">Age To</label>
+                            <div class="mt-5">
+                                <input class="input-class" type="number" name="age_out" id="age_out" max="110" required placeholder="Enter Age till Diet can be followed by a person">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mt-10 p-10">
+                            <label for="calories_to_be_burn">Calories To Burn</label>
+                            <div class="mt-5">
+                                <input class="input-class" type="number" name="calories_to_be_burn" id="calories_to_be_burn" required placeholder="Enter Calories to be Burned during Diet">
+                            </div>
+                        </div>
+                        <div class="col-6 mt-10 p-10">
+                            <label for="calories_to_be_consume">Calories To Consume</label>
+                            <div class="mt-5">
+                                <input class="input-class" type="number" name="calories_to_be_consume" id="calories_to_be_consume" required placeholder="Enter Calories to be Consumed during Diet">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mt-10 p-10">
+                            <label for="image">Image</label>
+                            <div class="mt-5 pl-5">
+                                <input type="file" name="image" id="image" required>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-10 p-10">
+                            <label>Diet For</label>
+                            <div class="mt-5">
+                                <select class="input-class" name="card_type">
+                                    <option value="" selected="selected" disabled="disabled">Please Select Diet Plan</option>
+                                    <option value="Weight Loss" >Weight Loss</option>
+                                    <option value="Weight Gain">Weight Gain</option>
+                                    <option value="Muscle Building">Muscle Building</option>
+                                    <option value="Fat Loss">Fat Loss</option>
+                                    <option value="Sports Performance">Sports Performance</option>
+                                    <option value="Diabetes Management">Diabetes Management</option>
+                                    <option value="Heart Health">Heart Health</option>
+                                    <option value="Healthy Skin">Healthy Skin</option>
+                                    <option value="Post-Surgery Recovery">Post-Surgery Recovery</option>
+                                    <option value="Hormonal Balance">Hormonal Balance</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="instructions">Instructions</label>
+                        <div class="mt-5">
+                            <textarea class="input-class" name="instructions" id="instructions" required placeholder="Enter Instructions to follow a Diet"></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="about_diet">About Diet</label>
+                        <div class="mt-5">
+                            <textarea class="input-class" name="about_diet" id="about_diet" required placeholder="Enter About Diet Plan"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <input class="submit-btn p-5 mt-20" type="submit" value="Add Diet" >
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

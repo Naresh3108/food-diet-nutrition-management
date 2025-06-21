@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Discussion</title>
+</head>
+<body>
+    {% if session['role']=="user" %}
+        {% include 'user_head.html' %}
+    {% elif session['role']=="Nutritionist" %}
+        {% include 'nutritionists_head.html' %}
+    {% endif %}
+
+    <h1 class="mt-20 text-center">
+        Discussions
+    </h1>
+    <div class="mt-30">
+        <div class="card p-10">
+            <div class="row">
+                <div class="col-4">
+                    <form action="discussion_action" method="post">
+                        <input type="hidden" value="{{user_diet_id}}" name="user_diet_id" id="user_diet_id">
+                        <div class="mt-10 p-20">
+                            <label for="comment">Comment</label>
+                            <div>
+                                <input type="text" class="input-class" name="comment" id="comment" required placeholder="Enter Comment">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <input type="submit"  class="submit-btn p-5" value="Add Comment">
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-8 p-10">
+                    <h3 class="text-center"></h3>
+                    <table class="table" border="1">
+                        <thead>
+                            <tr>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <th>Commented By</th>
+                                <th>Messaged By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for diet_detail in diet_details %}
+                            {% for discussion in diet_detail['discussion_on_diet']%}
+                            <tr>
+                                <td>{{discussion['comment']}}</td>
+                                <td>{{discussion['date']}}</td>
+                                {% if discussion['messaged_by']=='User'%}
+                                    {% set user = get_user_name_by_user_id(discussion['commented_by'])%}
+                                    <td>{{user['name']}}</td>
+                                {% else%}
+                                    {% set nutritionist = get_nutritionist_name_by_nutritionist_id(discussion['commented_by'])%}
+                                    <td>{{nutritionist['first_name']}}</td>
+                                {% endif %}
+                                <td>{{discussion['messaged_by']}}</td>
+                            </tr>
+                            {% endfor %}
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

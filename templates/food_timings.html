@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Timings</title>
+</head>
+<body class="body_view_diet">
+    {% include 'nutritionists_head.html' %}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 mt-70">
+            <div class="card p-10">
+                <h2 class="text-center mt-10">Food Timings</h2>
+                <form action="food_timings_action" method="post">
+                    <input type="hidden" name="diet_plan_id" value="{{diet_plan_id}}">
+                    <div class="p-10">
+                        <label for="timing_title">Timing Title</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="text" id="timing_title" name="timing_title" placeholder="Enter Food Timing Title" required> 
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <label for="food_time">Food Timing</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="time" id="food_time" name="food_time" placeholder="Food Time" required> 
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <label for="calories_can_take">Calories to Take</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="calories_can_take" name="calories_can_take" placeholder="Calories To Take" required>
+                        </div>
+                    </div>
+                    <div class=" p-10">
+                        <label for="carbs_can_take">Carbohydrates to Take</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="carbs_can_take" name="carbs_can_take" placeholder="Carbs To Take" required>
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <label for="proteins_can_take">Proteins to Take</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="proteins_can_take" name="proteins_can_take" placeholder="Proteins To Take" required>
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <label for="fats_can_take">Fats to Take</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="fats_can_take" name="fats_can_take" placeholder="Fats To Take" required>
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <input class="submit-btn p-5 mt-20" type="submit" value="Add Food Timings">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</body>
+</html>

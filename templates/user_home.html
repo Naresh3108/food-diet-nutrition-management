@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Home</title>
+</head>
+<body class="body_user_home">
+    {% include 'user_head.html' %}
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4 mt-200 text-center">
+            <h1>Welcome, {{session['user_name']}}!</h1>
+        </div>
+        <div class="col-6"></div>
+    </div>
+</body>
+</html>

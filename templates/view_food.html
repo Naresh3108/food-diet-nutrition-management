@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Food</title>
+</head>
+<body class="body_view">
+    {% if session['role']=='user'%}
+        {% include 'user_head.html' %}
+    {%elif session['role']=='Nutritionist'%}
+        {% include 'nutritionists_head.html' %}
+    {% endif%}
+    <h1 class="text-center mt-40">Food Details</h1>
+    {% for food_in_diet in food_in_diets %}
+    {% set total_calories_consumed = namespace(value=0) %}
+    {% set total_carbs_consumed = namespace(value=0) %}
+    {% set total_fats_consumed = namespace(value=0) %}
+    {% set total_proteins_consumed = namespace(value=0) %}
+    {% set user_foods=get_user_food_by_food_in_diet_id(food_in_diet['_id'],user_diet_id) %}
+        <div class="card_enrolled_view_diet mt-50">
+            <div class="row mt-50 p-30">
+                <div class="col-12 p-10">
+                <table border="1" class="table p-10">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Units</th>
+                            <th>Preparation Process</th>
+                            <th>Facts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{food_in_diet['food_name']}}</td>
+                            <td>{{food_in_diet['quantity']}}</td>
+                            <td>{{food_in_diet['units']}}</td>
+                            <td>{{food_in_diet['preparation_process']}}</td>
+                            <td>
+                                Calories: {{ food_in_diet['facts']['calories'] }}<br>
+                                Carbs: {{ food_in_diet['facts']['carbohydrates'] }}<br>
+                                Fats: {{ food_in_diet['facts']['fats'] }}<br>
+                                Proteins: {{ food_in_diet['facts']['proteins'] }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <h3>User Progress</h3>
+            </div>
+            <div class="row p-30">
+                {% if session['role']=='user'%}
+                <div class="col-4">
+                    <div class="card_enrolled_view_diet p-10">
+                        <form action="user_diet_action" method="post">
+                            <input type="hidden" name="user_diet_id" id="user_diet_id" value="{{user_diet_id}}">
+                            <input type="hidden" name="food_timing_id" id="food_timing_id" value="{{food_timing_id}}">
+                            <input type="hidden" name="food_in_diet_id" id="food_in_diet_id" value="{{food_in_diet['_id']}}">
+                            <div class="mt-10 p-10">
+                                <label for="quantity">Quantity</label>
+                                <div class="mt-5">
+                                    <input class="input-class" type="number" id="quantity" name="quantity" placeholder="Enter Food Quantity" required> 
+                                </div>
+                            </div>
+                            <div class="mt-10 p-10">
+                                <label for="date">Date</label>
+                                <div class="mt-5">
+                                    <input class="input-class" type="datetime-local" id="date" name="date" placeholder="Select Date" required> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5"></div>
+                                <div class="col-2"></div>
+                                <div class="col-5">
+                                    <input type="submit" class="submit-btn p-5 mt-20" value="Note">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="col-8 p-20">
+                    <table class="table" border="1">
+                        <thead>
+                            <tr>
+                                <th>Quanity</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user_food in user_foods %}
+                            <tr>
+                                <td>{{user_food['quantity']}}</td>
+                                <td>{{user_food['date']}}</td>
+                                {% set total_calories_consumed.value = total_calories_consumed.value + ( int(user_food['quantity']) * int(food_in_diet['facts']['calories']) ) %}
+                                {% set total_carbs_consumed.value = total_carbs_consumed.value + ( int(user_food['quantity']) * int(food_in_diet['facts']['carbohydrates']) ) %}
+                                {% set total_fats_consumed.value = total_fats_consumed.value + ( int(user_food['quantity']) * int(food_in_diet['facts']['fats']) ) %}
+                                {% set total_proteins_consumed.value = total_proteins_consumed.value + ( int(user_food['quantity']) * int(food_in_diet['facts']['proteins']) ) %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 text-center p-10">
+                    <h4>Total Calories Gained: {{total_calories_consumed.value}}cal</h4>
+                </div>
+                <div class="col-3 text-center p-10">
+                    <h4>Total Carbs Gained: {{total_carbs_consumed.value}}g</h4>
+                </div>
+                <div class="col-3 text-center p-10">
+                    <h4>Total Fats Gained: {{total_fats_consumed.value}}g</h4>
+                </div>
+                <div class="col-3 text-center p-10">
+                    <h4>Total Proteins Gained: {{total_proteins_consumed.value}}g</h4>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>

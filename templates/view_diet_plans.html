@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diet Plans</title>
+</head>
+<body class="body_view_diet">
+    {% if session['role']=="Admin" %}
+        {% include 'admin_head.html' %}
+    {% elif session['role']=="Nutritionist" %}
+        {% include 'nutritionists_head.html' %}
+    {% elif session['role']=="user" %}
+        {% include 'user_head.html' %}
+    {% endif %}
+    <div>
+        <h1 class="text-center mt-15">Diet Plans</h1>
+    </div>
+    {% if session['role']=="Admin" %}
+        <div class="card-table">
+            <table border="1" class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Nutrition Name</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Age From</th>
+                        <th>Age Out</th>
+                        <th>Instructions</th>
+                        <th>About</th>
+                        <th>Calories to Burn</th>
+                        <th>Calories to Consume</th>
+                        <th>Diet for</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for diet_plan in diet_plans %}
+                    {% set nutritionists=get_nutritionist_name_by_nutritionist_id(diet_plan['nutritionist_id']) %}
+                        <tr>
+                            <td><img class="table_image" src="../static/Diet_Plan_Images/{{diet_plan['image']}}" alt=""></td>
+                            <td>{{nutritionists['first_name']}}</td>
+                            <td>{{diet_plan['diet_title']}}</td>
+                            <td>{{diet_plan['diet_price']}}</td>
+                            <td>{{diet_plan['age_from']}}</td>
+                            <td>{{diet_plan['age_out']}}</td>
+                            <td>{{diet_plan['instructions']}}</td>
+                            <td>{{diet_plan['about_diet']}}</td>
+                            <td>{{diet_plan['calories_to_be_burn']}}</td>
+                            <td>{{diet_plan['calories_to_be_consume']}}</td>
+                            <td>{{diet_plan['diet_for']}}</td>
+                            <td>
+                                {% if diet_plan['status']=="not verified" %}
+                                    <div class="color-danger">{{diet_plan['status']}}</div>
+                                {% else %}
+                                    <div class="color-green">{{diet_plan['status']}}</div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if diet_plan['status']=="not verified" %}
+                                    <a class="btn-green" href="/verify_diet_plan?diet_plan_id={{diet_plan['_id']}}">Verify</a>
+                                {% else %}
+                                    <a class="btn-danger" href="/unverify_diet_plan?diet_plan_id={{diet_plan['_id']}}">Unverify</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% elif session['role']=="Nutritionist" %}
+        {% for diet_plan in diet_plans %}
+            <div class="card_view_diet mt-20">
+                <div class="row p-10">
+                    <div class="col-4 row p-10">
+                        <div class="col-7">
+                            <div class="head">
+                                <img height="170px" src="../static/Diet_Plan_Images/{{diet_plan['image']}}" alt="">
+                            </div>
+                            <div class="title">
+                                <h2 class="text-center">{{diet_plan['diet_title']}}</h2>
+                            </div>
+                            <div class="mt-5">
+                                <h5 style="display: inline;">About :</h5> {{diet_plan['about_diet']}} 
+                            </div>
+                            <div class="mt-5">
+                                <h5 style="display: inline;">Instructions :</h5> {{diet_plan['instructions']}}
+                            </div>
+                        </div>
+                        <div class="col-5 pl-20">
+                            <div class="mt-5 text-center pl-15">
+                                <h3>${{diet_plan['diet_price']}}</h3>
+                            </div>
+                            <div class="mt-5">
+                                Age From - Age Out
+                            </div>
+                            <div class="mt-5 text-center">
+                                {{diet_plan['age_from']}} - {{diet_plan['age_out']}}
+                            </div>
+                            <div class="mt-5">
+                                Calories To Be <br> Burned - {{diet_plan['calories_to_be_burn']}}
+                            </div>
+                            <div>
+                                Consume - {{diet_plan['calories_to_be_consume']}}
+                            </div>
+                            <div class="mt-10">
+                                <h4>Diet For</h4>
+                                {{diet_plan['diet_for']}}
+                            </div>
+                            <div class="mt-20 pl-35">
+                                <h3>{{diet_plan['status']}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 p-10 text-center">
+                        <div class="text-center">
+                            <a class="p-10 btn-hyperlink" href="/food_timings?diet_plan_id={{diet_plan['_id']}}">Add Food Timings</a>
+                        </div>
+                        {% for food_timing in food_timings %}
+                            <div class="p-10">
+                                <h4>View Food Timings</h4>
+                                {% if str(food_timing['diet_plan_id'])==str(diet_plan['_id']) %}
+                                    <div class="mt-10">
+                                        <table border="1" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Time</th>
+                                                    <th>Nutritional Facts</th>
+                                                    <th>Add Food Details</th>
+                                                    <th>Update Food Details</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{food_timing['food_timing_title']}}</td>
+                                                    <td>{{food_timing['food_time']}}</td>
+                                                    <td>
+                                                        Calories:{{food_timing['facts']['calories_can_take']}} cal,
+                                                        Carbs:{{food_timing['facts']['carbs_can_take']}} g,
+                                                        Fats:{{food_timing['facts']['fats_can_take']}} g,
+                                                        Proteins:{{food_timing['facts']['proteins_can_take']}} g
+                                                    </td>
+                                                    <td><a class="btn-hyperlink" href="/add_food_details?food_timing_id={{food_timing['_id']}}">Add</a></td>
+                                                    <td><a class="btn-hyperlink" href="/update_food_details?food_timing_id={{food_timing['_id']}}">Update</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-4 p-10">
+                        <div class="text-center">
+                            <a class="p-10 btn-hyperlink" href="/exercise_timings?diet_plan_id={{diet_plan['_id']}}">Add Exercise Timings</a>
+                        </div>
+
+                            <div class="p-10">
+                                <h4 class="text-center">View Exercise Timings</h4>
+
+                                    <div class="mt-10">
+                                        <table border="1" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Time</th>
+                                                    <th>Calories to Burn</th>
+                                                    <th>Add Exercise Details</th>
+<!--                                                    <th>Update Exercise Details</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for exercise_timing in exercise_timings %}
+                                            {% if str(exercise_timing['diet_plan_id'])==str(diet_plan['_id']) %}
+                                                <tr>
+                                                    <td>{{exercise_timing['exercise_title']}}</td>
+                                                    <td>{{exercise_timing['exercise_time']}}</td>
+                                                    <td>{{exercise_timing['calories_should_be_burn']}} cal</td>
+                                                    <td><a class="btn-hyperlink" href="/add_exercises?exercise_timing_id={{exercise_timing['_id']}}">Add </a></td>
+<!--                                                    <td><a class="btn-hyperlink" href="/update_exercises?exercise_timing_id={{exercise_timing['_id']}}">Update</a></td>-->
+                                                </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% elif session['role']=="user" %}
+        <div class="row">
+            {% for diet_plan in diet_plans %}
+            {% if diet_plan['status']=="verified" %}
+                <div class="col-3 mt-30">
+                    <div class="card_view">
+                        <div class="card-header">
+                            <div class="text-center">
+                                <img class="diet-image mt-10" src="../static/Diet_Plan_Images/{{diet_plan['image']}}" alt="Diet Image">
+                            </div>
+                        </div>
+                        <div class="card-body p-20">
+                            <div class="text-center">
+                                <h3>{{diet_plan['diet_title']}}</h3>
+                            </div>
+                            <div class="mt-5">
+                                <p>$ {{diet_plan['diet_price']}}</p>
+                            </div>
+                            <div class="mt-5 row">
+                                <div class="col-6">Age Group </div>
+                                <div class="col-6"><h4>{{diet_plan['age_from']}} - {{diet_plan['age_out']}}</h4></div>
+                            </div>
+                            <div class="mt-10">
+                                <h5>About</h5>
+                                <p>{{diet_plan['about_diet']}}</p>
+                            </div>
+                            <div class="mt-5">
+                                <div class="row">
+                                    <div class="col-8">Calories to Burn:</div>
+                                    <div class="col-4">{{diet_plan['calories_to_be_burn']}}</div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <div class="row">
+                                    <div class="col-8">Calories to Consume:</div>
+                                    <div class="col-4">{{diet_plan['calories_to_be_consume']}}</div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                Diet For: {{diet_plan['diet_for']}}
+                            </div>
+                            <div class="mt-5">
+                                <h5>Instructions</h5>
+                                <p>{{diet_plan['instructions']}}</p>
+                            </div>
+                            <div class="mt-15">
+                                <div class="row">
+                                    <div class="col-4"></div>
+                                    <div class="col-8">
+                                        <a class="submit-btn p-5 mt-10" href="/buy_diet_plan?diet_plan_id={{diet_plan['_id']}}&amount={{diet_plan['diet_price']}}">Buy Diet Plan</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

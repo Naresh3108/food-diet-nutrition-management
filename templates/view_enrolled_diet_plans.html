@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enrolled Diet Plans</title>
+</head>
+<body class="body_view_enrolled_diet">
+{% if session['role']=='user'%}
+    {% include 'user_head.html' %}
+{%elif session['role']=='Nutritionist'%}
+    {% include 'nutritionists_head.html' %}
+{% endif%}
+    <h1 class="text-center mt-20">Enrolled Diet Collection Details</h1>
+    {% for user_diet in user_diets %}
+    <div class="card_enrolled_view_diet mt-50">
+        <div class="row mt-50 p-10">
+            <div class="col-4 row">
+                {% set diet_plan=get_diet_plan_by_diet_plan_id(user_diet['diet_plan_id']) %}
+                 <div class="col-7">
+                    <div class="head">
+                        <img height="170px" src="../static/Diet_Plan_Images/{{diet_plan['image']}}" alt="">
+                    </div>
+                    <div class="title">
+                        <h2 class="text-center">{{diet_plan['diet_title']}}</h2>
+                    </div>
+                    <div class="mt-5">
+                        <h5 style="display: inline;">About :</h5> {{diet_plan['about_diet']}}
+                    </div>
+                    <div class="mt-5">
+                        <h5 style="display: inline;">Instructions :</h5> {{diet_plan['instructions']}}
+                    </div>
+                </div>
+                <div class="col-5 pl-20">
+                    <div class="mt-5 pl-15">
+                        <h3>${{diet_plan['diet_price']}}</h3>
+                    </div>
+                    <div class="mt-5">
+                        Age From - Age Out
+                    </div>
+                    <div class="mt-5 text-center">
+                        {{diet_plan['age_from']}} - {{diet_plan['age_out']}}
+                    </div>
+                    <div class="mt-5">
+                        Calories To Be <br> Burned - {{diet_plan['calories_to_be_burn']}} cal
+                    </div>
+                    <div>
+                        Consumed - {{diet_plan['calories_to_be_consume']}} cal
+                    </div>
+                    <div class="mt-10">
+                        <h4>Diet For</h4>
+                        {{diet_plan['diet_for']}}
+                    </div>
+                    {% if session['role']=='user'%}
+                    <div class="mt-20 text-center">
+                        <a class="btn-sub" href="/review?user_diet_id={{user_diet['_id']}}">Give Review</a>
+                    </div>
+                    {% endif%}
+                    <div class="mt-20">
+                        <a class="btn-hyperlink" href="/discussion?user_diet_id={{user_diet['_id']}}">Discussion on Diet</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                {% set food_timing=get_food_items_by_diet_plan_id(diet_plan['_id']) %}
+                <h4 class="text-center">View Food Timings</h4>
+                {% if str(food_timing['diet_plan_id'])==str(diet_plan['_id']) %}
+                <div class="p-10">
+                    <table border="1" class="table p-10">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Time</th>
+                                <th>Nutritional Facts to Consume</th>
+                                <th>View Food</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{food_timing['food_timing_title']}}</td>
+                                <td>{{food_timing['food_time']}}</td>
+                                <td>
+                                    Calories:{{food_timing['facts']['calories_can_take']}} cal, <br>
+                                    Carbs:{{food_timing['facts']['carbs_can_take']}} g, <br>
+                                    Fats:{{food_timing['facts']['fats_can_take']}} g, <br>
+                                    Proteins:{{food_timing['facts']['proteins_can_take']}} g
+                                </td>
+                                <td><a class="btn-sub" href="/view_food?food_timing_id={{food_timing['_id']}}&user_diet_id={{user_diet['_id']}}">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-4">
+                {% set exercise_timing=get_exercise_by_diet_plan_id(diet_plan['_id']) %}
+                <h4 class="text-center">View Exercise Timings</h4>
+                {% if str(exercise_timing['diet_plan_id'])==str(diet_plan['_id']) %}
+                <div class="p-10">
+                    <table border="1" class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Time</th>
+                                <th>Calories to Burn</th>
+                                <th>View Food</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{exercise_timing['exercise_title']}}</td>
+                                <td>{{exercise_timing['exercise_time']}}</td>
+                                <td>{{exercise_timing['calories_should_be_burn']}} cal</td>
+                                <td><a class="btn-sub" href="/view_exercises?exercise_timing_id={{exercise_timing['_id']}}&user_diet_id={{user_diet['_id']}}">View Exercises</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>

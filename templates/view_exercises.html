@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Exercises</title>
+</head>
+<body class="body_view">
+    {% if session['role']=='user'%}
+        {% include 'user_head.html' %}
+    {%elif session['role']=='Nutritionist'%}
+        {% include 'nutritionists_head.html' %}
+    {% endif%}
+    <h1 class="text-center mt-40">Exercise Details</h1>
+    {% for exercise in exercises %}
+    {% set total_calories = namespace(value=0) %}
+    {% set user_exercises = get_user_exercise_by_exercise_in_diet_id(exercise['_id'],user_diet_id) %}
+        <div class="card_enrolled_view_diet mt-50">
+            <div class="row mt-50 p-30">
+                <div class="col-12 p-10">
+                <table border="1" class="table p-10">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Duration</th>
+                            <th>Calories to Burn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{exercise['exercise_name']}}</td>
+                            <td>{{exercise['exercise_type']}}</td>
+                            <td>{{exercise['duration']}}</td>
+                            <td>{{exercise['calories-burn']}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <h3>User Exercise Progress</h3>
+            </div>
+            <div class="row p-30">
+                {% if session['role']=='user'%}
+                <div class="col-4">
+                    <div class="card_enrolled_view_diet p-10">
+                        <form action="user_exercise_action" method="post">
+                            <input type="hidden" name="user_diet_id" id="user_diet_id" value="{{user_diet_id}}">
+                            <input type="hidden" name="exercise_timing_id" id="exercise_timing_id" value="{{exercise_timing_id}}">
+                            <input type="hidden" name="exercise_in_diet_id" id="exercise_in_diet_id" value="{{exercise['_id']}}">
+                            <div class="mt-10 p-10">
+                                <label for="number_of_sets">Number of Sets</label>
+                                <div class="mt-5">
+                                    <input class="input-class" type="number" id="number_of_sets" name="number_of_sets" placeholder="Enter Number of Sets" required> 
+                                </div>
+                            </div>
+                            <div class="mt-10 p-10">
+                                <label for="date">Date</label>
+                                <div class="mt-5">
+                                    <input class="input-class" type="datetime-local" id="date" name="date" placeholder="Select Date" required> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"></div>
+                                <div class="col-6">
+                                    <input type="submit" class="submit-btn p-5 mt-20" value="Note">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-8 p-30">
+                    <table class="table" border="1">
+                        <thead>
+                            <tr>
+                                <th>Quanity</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user_exercise in user_exercises %}
+                            <tr>
+                                <td>{{user_exercise['number_of_sets']}}</td>
+                                <td>{{user_exercise['date']}}</td>
+                                {% set total_calories.value = total_calories.value + (  int(user_exercise['number_of_sets']) * int(exercise['calories-burn']) ) %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col-4 text-right p-10">
+                        <h4>Total Calories Burned: {{total_calories.value}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>

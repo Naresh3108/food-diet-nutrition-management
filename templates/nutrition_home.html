@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nutrition Home</title>
+</head>
+<body class="body_nutrition_home">
+    {% include 'nutritionists_head.html' %}
+    <div class="mt-150 text-center">
+        <h1>Welcome, {{session['role']}}</h1>
+        <h1>{{session['nutritionist_first_name']}}!</h1>
+    </div>
+</body>
+</html>

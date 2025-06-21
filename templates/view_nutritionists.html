@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nutritionists</title>
+</head>
+<body class="body_view_nutritionist">
+    {% include 'admin_head.html' %}
+    <div>
+        <h1 class="text-center mt-15">Nutritionists</h1>
+    </div>
+    <div class="card-table">
+        <table border="1" class="table">
+            <thead>
+                <tr>
+                    <th>Nutritionist Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zipcode</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nutritionist in nutritionists %}
+                    <tr>
+                        <td>{{nutritionist['_id']}}</td>
+                        <td>{{nutritionist['first_name']}}</td>
+                        <td>{{nutritionist['last_name']}}</td>
+                        <td>{{nutritionist['email']}}</td>
+                        <td>{{nutritionist['phone']}}</td>
+                        <td>{{nutritionist['address']}}</td>
+                        <td>{{nutritionist['city']}}</td>
+                        <td>{{nutritionist['state']}}</td>
+                        <td>{{nutritionist['zipcode']}}</td>
+                        <td>
+                            {% if nutritionist['status']=="not verified" %}
+                                <div class="color-danger">{{nutritionist['status']}}</div>
+                            {% else %}
+                                <div class="color-green">{{nutritionist['status']}}</div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if nutritionist['status']=="not verified" %}
+                                <a class="btn-green" href="verify_nutritionist?nutritionist_id={{nutritionist['_id']}}">Verify</a>
+                            {% else %}
+                                <a class="btn-danger" href="unverify_nutritionist?nutritionist_id={{nutritionist['_id']}}">Unverify</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

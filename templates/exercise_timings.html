@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise Timings</title>
+</head>
+<body class="body_view_diet">
+    {% include 'nutritionists_head.html' %}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 mt-100">
+            <div class="card p-10">
+                <h2 class="text-center mt-10">Exercise Timings</h2>
+                <form action="exercise_timings_action" method="post">
+                    <input type="hidden" name="diet_plan_id" value="{{diet_plan_id}}">
+                    <div class="mt-10 p-10">
+                        <label for="timing_title">Exercise Title</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="text" id="timing_title" name="timing_title" placeholder="Enter Food Timing Title" required> 
+                        </div>
+                    </div>
+                    <div class="mt-10 p-10">
+                        <label for="exercise_time">Exercise Time</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="time" id="exercise_time" name="exercise_time" placeholder="Food Time" required>
+                        </div>
+                    </div>
+                    <div class="mt-10 p-10">
+                        <label for="calories_should_be_burn">Calories To Be Burned</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="calories_should_be_burn" name="calories_should_be_burn" placeholder="Enter Calories to be burned " required> 
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <input class="submit-btn p-5 mt-20" type="submit" value="Add Food Timings">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</body>
+</html>

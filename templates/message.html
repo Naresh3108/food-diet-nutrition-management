@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body>
+    {% if session['role']=="Nutritionist" %}
+        {% include 'nutritionists_head.html' %}
+        <div class="mt-100 text-center color-secondary">
+            <h1>
+                {{message}}
+            </h1>
+        </div>
+    {% elif session['role']=="user" %}
+        {% include 'user_head.html' %}
+        <div class="mt-100 text-center color-secondary">
+            <h1>
+                {{message}}
+            </h1>
+        </div>
+    {% else %}
+        {% include 'head.html' %}
+        <div class="mt-100 text-center color-secondary">
+            <h1>
+                {{message}}
+            </h1>
+        </div>
+        <div class="mt-100 text-center color-danger">
+            <h1>
+                {{message1}}
+            </h1>
+        </div>
+    {% endif %}
+</body>
+</html>

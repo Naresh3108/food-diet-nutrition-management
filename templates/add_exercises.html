@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Exercises</title>
+</head>
+<body class="body_view">
+    {% include 'nutritionists_head.html' %}
+    <div class="text-center mt-20">
+        <h1>Add Exercise Details in Diet</h1>
+    </div>
+    <div class="card_view_diet mt-50">
+        <div class="row">
+            <div class="col-4 p-40">
+                <h3 class="text-center">Add Exercise Details</h3>
+                <form action="add_exercises_action" method="post">
+                    <input type="hidden" name="exercise_timing_id" id="exercise_timing_id" value="{{exercise_timing_id}}">
+                    <div class="mt-10">
+                        <label for="exercise_name">Name</label>
+                        <div class="mt-5">
+                            <input type="text" class="input-class" id="exercise_name" name="exercise_name" placeholder="Enter Exercise Name" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label>Exercise Type</label>
+                        <div class="mt-5">
+                            <select name="exercise_type" class="input-class">
+                                <option value="" selected="selected" disabled="disabled">Please Select Exercise Type</option>
+                                {% for exercise_type in exercise_types %}
+                                    <option value="{{exercise_type['_id']}}">{{exercise_type['exercise_name']}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="duration">Duration</label>
+                        <div class="mt-5">
+                            <input type="number" class="input-class" name="duration" id="duration" placeholder="Enter Duration Time" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="calories_burn">Calories to Burn</label>
+                        <div class="mt-5">
+                            <input type="number" class="input-class" id="calories_burn" name="calories_burn" placeholder="Enter Calories to Burn" required>
+                        </div>
+                    </div>
+                    <input class="submit-btn p-5 mt-20" type="submit" value="Add Exercise Details">
+                </form>
+            </div>
+            <div class="col-8">
+                <h3 class="text-center mt-30">View Exercise Details</h3>
+                <div class="mt-10 p-10">
+                    <table border="1" class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Duration</th>
+                                <th>Calories Burn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for exercise in exercises %}
+                            {% set exercise_type = get_exercise_type_by_exercise_type_id(exercise['exercise_type']) %}
+                            <tr>
+                                <td>{{exercise['exercise_name']}}</td>
+                                <td>{{exercise_type['exercise_name']}}</td>
+                                <td>{{exercise['duration']}} Min</td>
+                                <td>{{exercise['calories-burn']}} Cal</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

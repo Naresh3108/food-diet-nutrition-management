@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Food Details</title>
+</head>
+<body class="body_view">
+    {% include 'nutritionists_head.html' %}
+    <div class="text-center mt-20">
+        <h1>Food Details in Diet</h1>
+    </div>
+    <div class="card_view_diet mt-30">
+        <div class="row">
+            <div class="col-4 p-40">
+                <h3 class="text-center">Add Food Details</h3>
+                <form action="add_food_details_action" method="post">
+                    <input type="hidden" name="food_timing_id" id="food_timing_id" value="{{food_timing_id}}">
+                    <div class="mt-10">
+                        <label for="food_name">Name</label>
+                        <div class="mt-5">
+                            <input type="text" class="input-class" id="food_name" name="food_name" placeholder="Enter Food Name" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="quantity">Quantity</label>
+                        <div class="mt-5">
+                            <input type="number" class="input-class" id="quantity" name="quantity" placeholder="Enter Quantity" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="units">Units</label>
+                        <div class="mt-5">
+                            <input type="number" class="input-class" id="units" name="units" placeholder="Enter Units" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="preparation_process">Preparation Process</label>
+                        <div class="mt-5">
+                            <textarea class="input-class" id="preparation_process" name="preparation_process" placeholder="Enter Preparation Directions" required></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="calories">Calories</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="calories" name="calories" placeholder="Enter Calories" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="carbohydrates">Carbohydrates</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="carbohydrates" name="carbohydrates" placeholder="Enter Carbohydrates" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="fats">Fats</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="fats" name="fats" placeholder="Enter Fats" required>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <label for="proteins">Proteins</label>
+                        <div class="mt-5">
+                            <input class="input-class" type="number" id="proteins" name="proteins" placeholder="Enter Protiens" required>
+                        </div>
+                    </div>
+                    <input class="submit-btn p-5 mt-20" type="submit" value="Add Food Details">
+                </form>
+            </div>
+            <div class="col-8">
+                <h3 class="text-center mt-30">View Food Details</h3>
+                <div class="mt-10 p-10">
+                    <table border="1" class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Units</th>
+                                <th>Preparation Process</th>
+                                <th>Facts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for food_detail in food_details %}
+                            <tr>
+                                <td>{{food_detail['food_name']}}</td>
+                                <td>{{food_detail['quantity']}}</td>
+                                <td>{{food_detail['units']}}</td>
+                                <td>{{food_detail['preparation_process']}}</td>
+                                <td>
+                                Calories: {{ food_detail['facts']['calories']}}cal<br>
+                                Carbs: {{ food_detail['facts']['carbohydrates']}}g<br>
+                                Fats: {{ food_detail['facts']['fats']}}g<br>
+                                Proteins: {{ food_detail['facts']['proteins']}}g
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

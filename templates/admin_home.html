@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Home</title>
+</head>
+<body class="body_admin_home">
+    {% include 'admin_head.html' %}
+
+    <div class="row">
+        <div class="col-6"></div>
+        <div class="col-4 mt-300 color-white text-center">
+            <h1>Welcome, {{session['role']}}</h1>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</body>
+</html>
