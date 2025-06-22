@@ -1,11 +1,25 @@
 from itertools import product, count
-
 from dns.e164 import query
 from flask import Flask, session, render_template, redirect, request
+from flask_cors import CORS
 import pymongo
 import os
 from datetime import datetime
 from bson import ObjectId
+
+App_root=os.path.dirname(os.path.abspath(__file__))
+diet_plan_images_path=App_root+ "/" + "static/Diet_Plan_Images"
+
+# MongoDB client setup...
+my_client=pymongo.MongoClient("your-mongodb-connection-uri")
+# ... rest of your Mongo setup ...
+
+app=Flask(__name__)
+app.secret_key="food_diet_nutrition"
+CORS(app)  # <- Enable CORS for all routes
+
+admin_username = "admin"
+admin_password = "admin"
 
 App_root=os.path.dirname(os.path.abspath(__file__))
 diet_plan_images_path=App_root+ "/" + "static/Diet_Plan_Images"
@@ -662,4 +676,6 @@ def get_exercise_type_by_exercise_type_id(exercise_type_id):
     return exercise_type
 
 
-app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Get port for Render
+    app.run(host="0.0.0.0", port=port)
