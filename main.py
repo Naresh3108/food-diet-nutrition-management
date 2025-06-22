@@ -7,6 +7,9 @@ import os
 from datetime import datetime
 from bson import ObjectId
 
+import sys
+print("🔍 Python version:", sys.version)
+
 App_root=os.path.dirname(os.path.abspath(__file__))
 diet_plan_images_path=App_root+ "/" + "static/Diet_Plan_Images"
 
@@ -24,7 +27,7 @@ admin_password = "admin"
 App_root=os.path.dirname(os.path.abspath(__file__))
 diet_plan_images_path=App_root+ "/" + "static/Diet_Plan_Images"
 
-from pymongo import MongoClient
+
 
 import certifi
 from pymongo import MongoClient
