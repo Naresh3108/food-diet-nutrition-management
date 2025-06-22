@@ -32,12 +32,16 @@ diet_plan_images_path=App_root+ "/" + "static/Diet_Plan_Images"
 import certifi
 from pymongo import MongoClient
 
+# It’s better not to hardcode credentials in code.
+# Instead, consider using environment variables or a config file.
+
+mongo_uri = "mongodb+srv://nareshkurapati1399:XTM4YyAHvoI6pMt6@cluster0.kmhopuj.mongodb.net/?retryWrites=true&w=majority"
+
 my_client = MongoClient(
-    "mongodb+srv://nareshkurapati1399:XTM4YyAHvoI6pMt6@cluster0.kmhopuj.mongodb.net/?retryWrites=true&w=majority",
+    mongo_uri,
     tls=True,
     tlsCAFile=certifi.where()
 )
-
 # Optional: test connection at startup
 try:
     my_client.admin.command('ping')
