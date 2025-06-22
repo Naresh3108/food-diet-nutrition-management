@@ -24,8 +24,15 @@ admin_password = "admin"
 App_root=os.path.dirname(os.path.abspath(__file__))
 diet_plan_images_path=App_root+ "/" + "static/Diet_Plan_Images"
 
-my_client=pymongo.MongoClient("mongodb+srv://nareshkurapati1399:XTM4YyAHvoI6pMt6@cluster0.kmhopuj.mongodb.net/")
-my_database=my_client["Food_Diet_Nutrition"]
+import pymongo
+
+my_client = pymongo.MongoClient(
+    "mongodb+srv://nareshkurapati1399:XTM4YyAHvoI6pMt6@cluster0.kmhopuj.mongodb.net/?retryWrites=true&w=majority",
+    tls=True  # Enforce TLS
+    # tlsAllowInvalidCertificates=True  # <- Enable this only if you need to bypass strict certs for debugging
+)
+
+my_database = my_client["Food_Diet_Nutrition"]
 
 admin_collection=my_database["Admin"]
 nutritionist_collection=my_database["Nutritionist"]
