@@ -26,17 +26,22 @@ diet_plan_images_path=App_root+ "/" + "static/Diet_Plan_Images"
 
 from pymongo import MongoClient
 
+import certifi
+from pymongo import MongoClient
+
 my_client = MongoClient(
     "mongodb+srv://nareshkurapati1399:XTM4YyAHvoI6pMt6@cluster0.kmhopuj.mongodb.net/?retryWrites=true&w=majority",
     tls=True,
-    tlsCAFile="/etc/ssl/certs/ca-certificates.crt"
+    tlsCAFile=certifi.where()
 )
+
 # Optional: test connection at startup
 try:
     my_client.admin.command('ping')
     print("✅ MongoDB connection successful.")
 except Exception as e:
     print("❌ MongoDB connection failed:", e)
+
 
 my_database = my_client["Food_Diet_Nutrition"]
 
