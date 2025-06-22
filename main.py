@@ -7,6 +7,9 @@ import os
 from datetime import datetime
 from bson import ObjectId
 
+import ssl
+print("OpenSSL version:", ssl.OPENSSL_VERSION)
+
 import sys
 print("🔍 Python version:", sys.version)
 
